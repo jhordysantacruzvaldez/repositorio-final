@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VESTURE — Tienda de Ropa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #F5F0E8;
+      --dark: #1A1714;
+      --accent: #C8A96E;
+      --mid: #8A7968;
+      --light-mid: #D4CBBC;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--dark);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 4rem;
+      background: rgba(245,240,232,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--light-mid);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; letter-spacing: 6px;
+      text-transform: uppercase; color: var(--dark);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--mid);
+      font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--dark); }
+    .nav-right { display: flex; gap: 1.6rem; align-items: center; }
+    .nav-icon { font-size: 1.1rem; cursor: pointer; color: var(--mid); transition: color 0.3s; }
+    .nav-icon:hover { color: var(--dark); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+    .hero-text {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 4rem 6rem 6rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.4rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1.1; margin-bottom: 1.6rem;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+    .hero-sub {
+      color: var(--mid); font-size: 0.95rem; line-height: 1.8;
+      max-width: 380px; margin-bottom: 2.8rem;
+    }
+    .btn-primary {
+      display: inline-block; padding: 1rem 2.4rem;
+      background: var(--dark); color: var(--cream);
+      text-decoration: none; font-size: 0.75rem;
+      letter-spacing: 3px; text-transform: uppercase;
+      transition: background 0.3s, color 0.3s;
+    }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-outline {
+      display: inline-block; padding: 1rem 2.4rem;
+      border: 1px solid var(--dark); color: var(--dark);
+      text-decoration: none; font-size: 0.75rem;
+      letter-spacing: 3px; text-transform: uppercase; margin-left: 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    .btn-outline:hover { background: var(--dark); color: var(--cream); }
+
+    .hero-image {
+      background: var(--dark);
+      position: relative; overflow: hidden;
+    }
+    .hero-image-inner {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #2c2620 0%, #1a1714 60%, #3d3228 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-placeholder {
+      text-align: center; color: var(--accent);
+    }
+    .hero-placeholder .big-icon { font-size: 8rem; opacity: 0.3; }
+    .hero-placeholder p {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 1.1rem; color: var(--light-mid); margin-top: 1rem;
+    }
+    .hero-badge {
+      position: absolute; bottom: 2.5rem; right: 2.5rem;
+      width: 90px; height: 90px; border-radius: 50%;
+      border: 1px solid var(--accent);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; color: var(--accent);
+    }
+    .hero-badge span:first-child { font-size: 1.3rem; font-weight: 700; }
+    .hero-badge span:last-child  { font-size: 0.55rem; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* ── BANNER ── */
+    .banner {
+      background: var(--dark); color: var(--cream);
+      padding: 1rem 0; overflow: hidden;
+    }
+    .banner-track {
+      display: flex; gap: 4rem;
+      animation: marquee 18s linear infinite; white-space: nowrap;
+    }
+    .banner-track span {
+      font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent);
+    }
+    .banner-track span.dot { color: var(--mid); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── CATEGORÍAS ── */
+    .section { padding: 6rem 6rem; }
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif; font-size: 2.6rem;
+      margin-bottom: 3.5rem; line-height: 1.15;
+    }
+
+    .categories {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    }
+    .cat-card {
+      position: relative; overflow: hidden; cursor: pointer;
+      aspect-ratio: 3/4;
+      background: var(--dark);
+    }
+    .cat-bg {
+      position: absolute; inset: 0;
+      transition: transform 0.6s ease;
+    }
+    .cat-card:hover .cat-bg { transform: scale(1.06); }
+    .cat-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,23,20,0.85) 0%, transparent 55%);
+    }
+    .cat-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.5rem;
+    }
+    .cat-name {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem;
+      color: var(--cream); margin-bottom: 0.3rem;
+    }
+    .cat-count { font-size: 0.7rem; letter-spacing: 3px; color: var(--light-mid); text-transform: uppercase; }
+
+    .cat-1 .cat-bg { background: linear-gradient(145deg, #3d2b1f, #241a14); }
+    .cat-2 .cat-bg { background: linear-gradient(145deg, #1f2d3d, #141924); }
+    .cat-3 .cat-bg { background: linear-gradient(145deg, #2d3d1f, #1a2414); }
+    .cat-4 .cat-bg { background: linear-gradient(145deg, #3d1f2b, #241420); }
+
+    .cat-icon { font-size: 3rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-70%); opacity: 0.18; }
+
+    /* ── PRODUCTOS ── */
+    .products-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    }
+    .prod-card { cursor: pointer; }
+    .prod-img {
+      aspect-ratio: 3/4; background: var(--light-mid);
+      position: relative; overflow: hidden; margin-bottom: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .prod-img-inner {
+      width: 100%; height: 100%;
+      transition: transform 0.5s ease;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .prod-card:hover .prod-img-inner { transform: scale(1.04); }
+    .prod-emoji { font-size: 4.5rem; opacity: 0.25; }
+    .prod-tag {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--dark); color: var(--cream);
+      font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+    }
+    .prod-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.3rem; }
+    .prod-detail { font-size: 0.78rem; color: var(--mid); margin-bottom: 0.5rem; }
+    .prod-price { font-size: 0.9rem; color: var(--dark); }
+    .prod-price .old { text-decoration: line-through; color: var(--mid); margin-right: 0.5rem; }
+    .prod-price .new { color: var(--accent); font-weight: 500; }
+
+    .p1 { background: linear-gradient(135deg, #d4cbbc, #bfb5a4); }
+    .p2 { background: linear-gradient(135deg, #c8c0d5, #b5acbf); }
+    .p3 { background: linear-gradient(135deg, #c5d0c8, #aebdbc); }
+    .p4 { background: linear-gradient(135deg, #d5cac5, #c0b0aa); }
+    .p5 { background: linear-gradient(135deg, #cfd5c5, #bec0b0); }
+    .p6 { background: linear-gradient(135deg, #d5c5ce, #c0aab5); }
+
+    /* ── PROMO BAND ── */
+    .promo-band {
+      display: grid; grid-template-columns: 1fr 1fr;
+      margin: 0 6rem 6rem;
+    }
+    .promo-left {
+      background: var(--dark); padding: 5rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .promo-left .section-label { color: var(--accent); }
+    .promo-left .section-title { color: var(--cream); font-size: 2rem; margin-bottom: 1.5rem; }
+    .promo-left p { color: var(--light-mid); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem; }
+    .promo-right {
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem;
+    }
+    .promo-big { text-align: center; color: var(--dark); }
+    .promo-big .num {
+      font-family: 'Playfair Display', serif; font-size: 7rem;
+      line-height: 1; font-weight: 700;
+    }
+    .promo-big .off { font-size: 0.8rem; letter-spacing: 5px; text-transform: uppercase; }
+    .promo-big .desc { font-size: 0.78rem; margin-top: 0.5rem; color: #3d3228; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark); color: var(--light-mid);
+      padding: 4rem 6rem 2rem;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+      border-bottom: 1px solid #2e2a26; padding-bottom: 3rem;
+    }
+    .footer-brand .logo { color: var(--cream); }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.8; margin-top: 1rem; max-width: 260px; }
+    .footer-col h4 {
+      font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a { text-decoration: none; color: var(--mid); font-size: 0.85rem; transition: color 0.3s; }
+    .footer-col ul li a:hover { color: var(--cream); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem; color: var(--mid);
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Vesture</a>
+  <ul class="nav-links">
+    <li><a href="#">Mujer</a></li>
+    <li><a href="#">Hombre</a></li>
+    <li><a href="#">Niños</a></li>
+    <li><a href="#">Colección</a></li>
+    <li><a href="#">Outlet</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-icon">🔍</span>
+    <span class="nav-icon">♡</span>
+    <span class="nav-icon">🛍</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Nueva Colección — Otoño 2025</p>
+    <h1 class="hero-title">
+      Estilo que<br><em>define</em><br>tu esencia
+    </h1>
+    <p class="hero-sub">
+      Prendas cuidadosamente seleccionadas para quienes valoran la elegancia en cada detalle. Moda atemporal con un toque contemporáneo.
+    </p>
+    <div>
+      <a href="#" class="btn-primary">Explorar Colección</a>
+      <a href="#" class="btn-outline">Ver Lookbook</a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="hero-image-inner">
+      <div class="hero-placeholder">
+        <div class="big-icon">👗</div>
+        <p>Nueva Colección</p>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <span>-30%</span>
+      <span>Esta semana</span>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="banner">
+  <div class="banner-track">
+    <span>Envío gratis +S/150</span><span class="dot">✦</span>
+    <span>Devoluciones gratuitas</span><span class="dot">✦</span>
+    <span>Nueva colección disponible</span><span class="dot">✦</span>
+    <span>30% OFF primera compra</span><span class="dot">✦</span>
+    <span>Envío gratis +S/150</span><span class="dot">✦</span>
+    <span>Devoluciones gratuitas</span><span class="dot">✦</span>
+    <span>Nueva colección disponible</span><span class="dot">✦</span>
+    <span>30% OFF primera compra</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- CATEGORÍAS -->
+<section class="section">
+  <p class="section-label">Explorar</p>
+  <h2 class="section-title">Categorías</h2>
+  <div class="categories">
+    <div class="cat-card cat-1">
+      <div class="cat-bg"></div>
+      <div class="cat-icon">👗</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <p class="cat-name">Mujer</p>
+        <p class="cat-count">124 productos</p>
+      </div>
+    </div>
+    <div class="cat-card cat-2">
+      <div class="cat-bg"></div>
+      <div class="cat-icon">👔</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <p class="cat-name">Hombre</p>
+        <p class="cat-count">98 productos</p>
+      </div>
+    </div>
+    <div class="cat-card cat-3">
+      <div class="cat-bg"></div>
+      <div class="cat-icon">👟</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <p class="cat-name">Calzado</p>
+        <p class="cat-count">67 productos</p>
+      </div>
+    </div>
+    <div class="cat-card cat-4">
+      <div class="cat-bg"></div>
+      <div class="cat-icon">👜</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <p class="cat-name">Accesorios</p>
+        <p class="cat-count">45 productos</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="section" style="padding-top:0">
+  <p class="section-label">Lo más visto</p>
+  <h2 class="section-title">Destacados</h2>
+  <div class="products-grid">
+    <div class="prod-card">
+      <div class="prod-img p1">
+        <div class="prod-img-inner"><span class="prod-emoji">👗</span></div>
+        <span class="prod-tag">Nuevo</span>
+      </div>
+      <p class="prod-name">Vestido Lino Toscano</p>
+      <p class="prod-detail">Beige · S / M / L / XL</p>
+      <p class="prod-price">S/ 289.00</p>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img p2">
+        <div class="prod-img-inner"><span class="prod-emoji">🧥</span></div>
+        <span class="prod-tag">Oferta</span>
+      </div>
+      <p class="prod-name">Blazer Oversize Milano</p>
+      <p class="prod-detail">Lavanda · S / M / L</p>
+      <p class="prod-price"><span class="old">S/ 420</span><span class="new">S/ 294</span></p>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img p3">
+        <div class="prod-img-inner"><span class="prod-emoji">👕</span></div>
+      </div>
+      <p class="prod-name">Camisa Algodón Premium</p>
+      <p class="prod-detail">Verde salvia · S / M / L / XL</p>
+      <p class="prod-price">S/ 179.00</p>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img p4">
+        <div class="prod-img-inner"><span class="prod-emoji">👖</span></div>
+        <span class="prod-tag">Bestseller</span>
+      </div>
+      <p class="prod-name">Pantalón Pinzas Clásico</p>
+      <p class="prod-detail">Arena · 28 / 30 / 32 / 34</p>
+      <p class="prod-price">S/ 239.00</p>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img p5">
+        <div class="prod-img-inner"><span class="prod-emoji">🧣</span></div>
+      </div>
+      <p class="prod-name">Bufanda Cachemira Suave</p>
+      <p class="prod-detail">Oliva / Camel / Gris</p>
+      <p class="prod-price">S/ 149.00</p>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img p6">
+        <div class="prod-img-inner"><span class="prod-emoji">👜</span></div>
+        <span class="prod-tag">Oferta</span>
+      </div>
+      <p class="prod-name">Bolso Piel Artesanal</p>
+      <p class="prod-detail">Burdeos · Talla única</p>
+      <p class="prod-price"><span class="old">S/ 380</span><span class="new">S/ 266</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO -->
+<div class="promo-band">
+  <div class="promo-left">
+    <p class="section-label">Oferta especial</p>
+    <h2 class="section-title">Temporada de descuentos</h2>
+    <p>Renueva tu guardarropa con las mejores prendas de la temporada. Selección exclusiva con hasta 30% de descuento esta semana.</p>
+    <a href="#" class="btn-primary" style="align-self:flex-start">Ver ofertas</a>
+  </div>
+  <div class="promo-right">
+    <div class="promo-big">
+      <div class="num">30%</div>
+      <div class="off">Off esta semana</div>
+      <div class="desc">En prendas seleccionadas</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo">Vesture</a>
+      <p>Moda atemporal para quienes valoran la elegancia en cada detalle. Calidad y estilo, siempre.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul>
+        <li><a href="#">Mujer</a></li>
+        <li><a href="#">Hombre</a></li>
+        <li><a href="#">Niños</a></li>
+        <li><a href="#">Accesorios</a></li>
+        <li><a href="#">Outlet</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul>
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a href="#">Guía de tallas</a></li>
+        <li><a href="#">Preguntas frecuentes</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#">Sobre nosotros</a></li>
+        <li><a href="#">Sostenibilidad</a></li>
+        <li><a href="#">Blog de moda</a></li>
+        <li><a href="#">Trabaja con nosotros</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Vesture. Todos los derechos reservados.</p>
+    <p>Hecho con ♡ en Lima, Perú</p>
+  </div>
+</footer>
+
+</body>
+</html>
